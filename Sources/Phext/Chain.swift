@@ -39,10 +39,10 @@ public struct Chain: Equatable {
         guard let (universe, coord) = Phext.parseUniverseAddress(address) else {
             return ""
         }
-        guard universe >= 1, universe - 1 < members.count else {
+        guard universe >= 1, universe - 1 < UInt64(members.count) else {
             return ""
         }
-        return Phext.fetch(members[universe - 1], coord)
+        return Phext.fetch(members[Int(universe - 1)], coord)
     }
 }
 
