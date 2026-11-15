@@ -44,7 +44,7 @@ public enum Phext {
     public static let addressMacroBreak: UInt8 = 0x2F // '/'
     public static let addressMacroAlt: UInt8 = 0x3B   // ';'
 
-    public static let version = "0.6.0"
+    public static let version = "0.6.1"
 
     // MARK: - Helpers mirroring rs internals
 
