@@ -25,7 +25,7 @@ final class PhextTests: XCTestCase {
     }
 
     func testStrictParseValidRoundTrips() throws {
-        for address in ["1.1.1/1.1.1/1.1.1", "2.7.1/3.9.4/5.2.8", "1000.2000.3000/1.1.1/1.1.1", "1.1.1/1.1.1/18446744073709551615"] {
+        for address in ["1.1.1/1.1.1/1.1.1", "2.7.1/3.9.4/5.2.8", "1000.2000.3000/1.1.1/1.1.1", "1.1.1/1.1.1/1.1.18446744073709551615"] {
             let parsed = try Coordinate.parse(address)
             XCTAssertEqual(parsed.toString(), address)
         }
