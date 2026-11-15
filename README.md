@@ -1,7 +1,7 @@
 # libphext-swift
 
 The Swift port of phext, tracking the reference implementation
-[libphext-rs](https://github.com/wbic16/libphext-rs) at **0.6.0**.
+[libphext-rs](https://github.com/wbic16/libphext-rs) at **0.6.1**.
 
 Phext is composable, relational text: plain text (scrolls) addressed in an
 11-dimensional space — a 9-dimension coordinate
@@ -32,6 +32,17 @@ byte-for-byte:
   phexts joined by chain break `0x02` and terminated by chain close
   `0x03`, with `$N:` multiverse addressing (`Chain.fetch`) — a bare
   address means universe 1, and misses return `""`.
+- **Addressing** (`ScrollPosition`, `PointAddress`, `RangeAddress`,
+  `Phext.parsePointAddress` / `parseRangeAddress`): the v0.6.1 point,
+  offset, and range forms — `$N:<coordinate>@<line>,<column>[+<offset>]`
+  points and `<point>-<point>` ranges spanning scrolls and universes.
+  Positions are 1-based caret boundaries (half-open), columns and
+  offsets count Unicode scalar values, and range endpoints normalize to
+  ascending order (direction is discarded; `$1:` is never emitted).
+  `Chain.resolvePoint` / `resolveRange` return `nil` on any
+  out-of-range endpoint — never a clamp — and `Chain.fetchPoint` /
+  `fetchRange` return `""` on any failure; a range fetch is a phext
+  (chain) fragment with no trailing chain close.
 
 ## Requirements
 
@@ -45,14 +56,16 @@ byte-for-byte:
 
 ```sh
 scripts/build.sh   # swift build -c release
-scripts/test.sh    # swift test (unit suites + the shared 0.6 chain fixtures)
+scripts/test.sh    # swift test (unit suites + the shared chain and range fixtures)
 ```
 
 The test suite ports the Rust suites (`phext`, `phokenize`, `binary`,
-`seal`, `chain`) as XCTest and runs the shared chain conformance fixtures
-in `Tests/PhextTests/Fixtures/chains/` — 10 cases, 42 fetches, each
-checked for structure, per-scroll hashes, byte-identical round-trip, and
-byte-exact fetches.
+`seal`, `chain`, `address`) as XCTest and runs the shared conformance
+fixtures: the chain fixtures in `Tests/PhextTests/Fixtures/chains/`
+(10 cases, 42 fetches, each checked for structure, per-scroll hashes,
+byte-identical round-trip, and byte-exact fetches) and the v0.6.1 range
+fixtures in `Tests/PhextTests/Fixtures/ranges/` (6 cases, 69 ops,
+consumed op-by-op from `expected.tsv`).
 
 ## Usage
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # libphext-swift test step: the full XCTest suite, including the shared
-# libphext 0.6 chain conformance fixtures (10 cases, 42 fetches).
+# conformance fixtures: libphext 0.6 chains (10 cases, 42 fetches) and
+# libphext 0.6.1 ranges (6 cases, 69 ops).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 if ! command -v swift >/dev/null 2>&1; then
